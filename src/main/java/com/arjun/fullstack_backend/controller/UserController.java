@@ -1,5 +1,6 @@
 package com.arjun.fullstack_backend.controller;
 
+import com.arjun.fullstack_backend.exception.UserNotFoundException;
 import com.arjun.fullstack_backend.model.User;
 import com.arjun.fullstack_backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,10 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    // DELETE - deletes user from database
+    @GetMapping("/user/{id}")
+    User getUserById(@PathVariable Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+    }
 }
