@@ -33,4 +33,23 @@ public class UserController {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
+
+    // EDIT - editing the user
+    @PutMapping("/user/{id}")
+    User updateUser(@RequestBody User newUser, @PathVariable Long id) {
+
+        //Map creates a new array from calling a function for every element
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setName(newUser.getName());
+                    user.setUsername(newUser.getUsername());
+                    user.setEmail(newUser.getEmail());
+                    user.setPassword(newUser.getPassword());
+
+                    //Save the existing user into the database
+                    return userRepository.save(user);
+
+                //Or throw custom exception
+                }).orElseThrow(() -> new UserNotFoundException(id));
+    }
 }
