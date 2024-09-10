@@ -1,28 +1,22 @@
-package com.arjun.fullstack_backend.model;
+/*Server api on port 8080*/
+package com.arjun.fullstack_backend.User.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-//import jakarta.persistence.OneToMany;
-
-//import java.util.ArrayList;
-//import java.util.List;
+import jakarta.persistence.*;
 
 @Entity
+@Table
 public class User {
     //Generate ID automatically
     @Id
     @GeneratedValue
     private Long id;
 
-//    @OneToMany
-//    private List<E> polls = new ArrayList<E>();
-
     //User fields
     private String name;
     private String username;
     private String email;
     private String password;
+
 
     //Getters and Setters
     public Long getId() { return id; }
@@ -40,6 +34,4 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-//    public String getPolls() { return polls; }
-//    public void setPolls(List<E> polls) { this.polls = polls; }
 }

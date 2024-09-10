@@ -31,8 +31,11 @@ as a tutorial on how to implement user login and registration.
 ### Rest API w/ SpringBoot and Gradle | CRUD REST API
 
 I used this [video](https://www.youtube.com/watch?v=B-cePk1ruuY&ab_channel=TechHelp) to initialize the API
-and I checked that it worked with the [Postman API platform](https://www.postman.com/). I also used
-this [video](https://www.youtube.com/playlist?list=PL1oBBulPlvs84AmRmT-_3dGz4KHYuINsj) as a guide.
+and I checked that it worked with the [Postman API platform](https://www.postman.com/). 
+
+I also used these videoes for inspiration:
+- [Full Stack Spring Boot React Series](https://www.youtube.com/playlist?list=PL1oBBulPlvs84AmRmT-_3dGz4KHYuINsj)
+- [Quiz App Using Spring Boot](https://www.youtube.com/watch?v=zFGh_Jh-Hvs&ab_channel=Telusko) (click on 'From the series' to view all videoes)
 
 #### Dependencies
 
