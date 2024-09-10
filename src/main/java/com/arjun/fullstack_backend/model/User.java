@@ -3,10 +3,7 @@ package com.arjun.fullstack_backend.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-//import jakarta.persistence.OneToMany;
 
-//import java.util.ArrayList;
-//import java.util.List;
 
 @Entity
 public class User {
@@ -14,9 +11,6 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-
-//    @OneToMany
-//    private List<E> polls = new ArrayList<E>();
 
     //User fields
     private String name;
@@ -40,6 +34,4 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-//    public String getPolls() { return polls; }
-//    public void setPolls(List<E> polls) { this.polls = polls; }
 }
