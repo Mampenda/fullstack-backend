@@ -1,6 +1,7 @@
 package com.arjun.fullstack_backend.Polls.controller;
 
 
+import com.arjun.fullstack_backend.Polls.exception.PollNotFoundException;
 import com.arjun.fullstack_backend.Polls.repository.PollsRepository;
 import com.arjun.fullstack_backend.Polls.model.Poll;
 import com.arjun.fullstack_backend.User.exception.UserNotFoundException;
@@ -29,30 +30,30 @@ public class PollsController {
     }
 
     // DELETE - deletes user from database
-//    @GetMapping("/poll/{id}")
-//    Poll getPollById(@PathVariable Long id){
-//        return pollRepository.findById(id)
-//                .orElseThrow(() -> new PollNotFoundException(id));
-//    }
+    @GetMapping("/poll/{id}")
+    Poll getPollById(@PathVariable Long id){
+        return pollRepository.findById(id)
+                .orElseThrow(() -> new PollNotFoundException(id));
+    }
 
-//    // EDIT - editing the poll
-//    @PutMapping("/poll/{id}")
-//    Poll updatePoll(@RequestBody Poll newPoll, @PathVariable Long id) {
-//
-//        //Map creates a new array from calling a function for every element
-//        return pollRepository.findById(id)
-//                .map(poll -> {
-//                    poll.setName(newPoll.getName());
-//                    poll.setUsername(newPoll.getUsername());
-//                    poll.setEmail(newPoll.getEmail());
-//                    poll.setPassword(newPoll.getPassword());
-//
-//                    //Save the existing user into the database
-//                    return pollRepository.save(poll);
-//
-//                    //Or throw custom exception
-//                }).orElseThrow(() -> new PollNotFoundException(id));
-//    }
+    // EDIT - editing the poll
+    @PutMapping("/poll/{id}")
+    Poll updatePoll(@RequestBody Poll newPoll, @PathVariable Long id) {
+
+        //Map creates a new array from calling a function for every element
+        return pollRepository.findById(id)
+                .map(poll -> {
+                    poll.setName(newPoll.getName());
+                    poll.setUsername(newPoll.getUsername());
+                    poll.setEmail(newPoll.getEmail());
+                    poll.setPassword(newPoll.getPassword());
+
+                    //Save the existing user into the database
+                    return pollRepository.save(poll);
+
+                    //Or throw custom exception
+                }).orElseThrow(() -> new PollNotFoundException(id));
+    }
 
     // DELETE - delete poll by id
     @DeleteMapping("/poll/{id}")
