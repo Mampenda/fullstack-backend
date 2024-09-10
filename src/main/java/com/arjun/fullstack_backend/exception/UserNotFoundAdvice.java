@@ -1,4 +1,4 @@
-package com.arjun.fullstack_backend.User.exception;
+package com.arjun.fullstack_backend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
