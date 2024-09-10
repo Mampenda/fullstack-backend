@@ -1,4 +1,4 @@
-package com.arjun.fullstack_backend.exception;
+package com.arjun.fullstack_backend.User.exception;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(Long id) {
