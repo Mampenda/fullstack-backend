@@ -1,4 +1,4 @@
-package com.arjun.fullstack_backend.User.exception;
+package com.arjun.fullstack_backend.VoteOptions.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,14 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class UserNotFoundAdvice {
+public class VoteOptionNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(VoteOptionNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> exceptionHandler(UserNotFoundException exception){
+    public Map<String, String> exceptionHandler(VoteOptionNotFoundException exception){
 
-        Map<String, String> errorMap = new HashMap<>();
+        Map<String, String> errorMap= new HashMap<>();
         errorMap.put("errorMessage", exception.getMessage());
 
         return errorMap;

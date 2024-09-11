@@ -1,9 +1,10 @@
 package com.arjun.fullstack_backend.Polls.model;
 
 import com.arjun.fullstack_backend.User.model.User;
+import com.arjun.fullstack_backend.VoteOptions.model.VoteOption;
 import jakarta.persistence.*;
 
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name="polls")
@@ -24,6 +25,9 @@ public class Poll {
     @JoinColumn(name = "creator_id")
     private User creator;
 
+    // One poll to many options
+    @OneToMany(mappedBy = "poll")
+    private List<VoteOption> voteOptions;
 
     private String question;
 
@@ -36,5 +40,22 @@ public class Poll {
 
     public User getCreator() { return creator; }
     public void setCreator(User creator) { this.creator = creator; }
+
+    public List<VoteOption> getVoteOptions() { return voteOptions; }
+    public void setVoteOptions(List<VoteOption> voteOptions) { this.voteOptions = voteOptions; }
+
+//    private static class customPair<I extend Number, VoteOption> {
+//        private int index;
+//        private VoteOption option;
+//        public customPair(Integer index, VoteOption option) {
+//            this.index = index;
+//            this.option = option;
+//        }
+//
+//        public int getIndex() { return index; }
+//        public void setIndex(int index) { this.index = index; }
+//        public VoteOption getOption() { return option; }
+//        public void setOption(VoteOption option) { this.option = option; }
+//    }
 }
 

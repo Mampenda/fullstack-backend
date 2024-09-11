@@ -1,5 +1,6 @@
 package com.arjun.fullstack_backend.User.controller;
 
+
 import com.arjun.fullstack_backend.User.exception.UserNotFoundException;
 import com.arjun.fullstack_backend.User.model.User;
 import com.arjun.fullstack_backend.User.repository.UserRepository;
@@ -27,7 +28,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    // DELETE - deletes user from database
+    // GET BY ID - gets user by id
     @GetMapping("/user/{id}")
     User getUserById(@PathVariable Long id){
         return userRepository.findById(id)

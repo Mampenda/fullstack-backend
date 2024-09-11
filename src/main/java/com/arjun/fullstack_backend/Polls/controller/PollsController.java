@@ -20,14 +20,26 @@ public class PollsController {
     @PostMapping("/poll")
     Poll newPoll(@RequestBody Poll newPoll) { return pollRepository.save(newPoll); }
 
-    // GET - gets all user data from database
+    // GET - gets all polls from database
     @GetMapping("/polls")
     List<Poll> getAllPolls() { return pollRepository.findAll(); }
 
-    // DELETE - deletes poll from database
+    // GET BY ID - gets poll by id
     @GetMapping("/poll/{id}")
     Poll getPollById(@PathVariable Long id) {
         return pollRepository.findById(id)
                 .orElseThrow(() -> new PollNotFoundException(id));
+    }
+
+    // DELETE - delete poll{ by id
+    @DeleteMapping("/poll/{id}")
+    String deletePoll(@PathVariable Long id) {
+
+        //Throw exception if the user does not exist
+        if(!pollRepository.existsById(id)) { throw new PollNotFoundException(id); }
+
+        //Delete user
+        pollRepository.deleteById(id);
+        return "Poll with id " + id +  " has been deleted successfully.";
     }
 }
