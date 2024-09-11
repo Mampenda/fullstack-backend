@@ -1,13 +1,16 @@
 package com.arjun.fullstack_backend.User.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.arjun.fullstack_backend.Polls.model.Poll;
+import jakarta.persistence.*;
 
+import java.util.List;
 
+/*
+@Entity marks a class as an entity, indicating it should persist in a database.
+@Table specifies details about the database table associated with the entity.
+*/
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class User {
     //Generate ID automatically
     @Id
@@ -19,6 +22,10 @@ public class User {
     private String username;
     private String email;
     private String password;
+
+    //One user to many polls
+    @OneToMany(mappedBy = "creator")
+    private List<Poll> polls;
 
     //Getters and Setters
     public Long getId() { return id; }
@@ -36,4 +43,6 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
+    public List<Poll> getPolls() { return polls; }
+    public void setPolls(List<Poll> polls) { this.polls = polls; }
 }
