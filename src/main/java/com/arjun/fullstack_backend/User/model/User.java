@@ -1,6 +1,7 @@
 package com.arjun.fullstack_backend.User.model;
 
 import com.arjun.fullstack_backend.Polls.model.Poll;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -43,6 +44,11 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
+    /*@JsonManagedReference is a forward path of the mapping and gets data serialized normally so we place it on the
+    * one to many side, so when you get a user, the user-class gets a list of polls, and it ends there without
+    * infinite recursion
+    */
+    @JsonManagedReference
     public List<Poll> getPolls() { return polls; }
     public void setPolls(List<Poll> polls) { this.polls = polls; }
 }

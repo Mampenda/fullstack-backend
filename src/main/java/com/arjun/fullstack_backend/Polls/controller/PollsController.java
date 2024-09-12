@@ -4,10 +4,13 @@ package com.arjun.fullstack_backend.Polls.controller;
 import com.arjun.fullstack_backend.Polls.exception.PollNotFoundException;
 import com.arjun.fullstack_backend.Polls.repository.PollsRepository;
 import com.arjun.fullstack_backend.Polls.model.Poll;
+import com.arjun.fullstack_backend.User.exception.UserNotFoundException;
+import com.arjun.fullstack_backend.User.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("http://localhost:3000") /*Connect to front-end*/
@@ -18,17 +21,35 @@ public class PollsController {
 
     // POST - posts poll data and returns posted data
     @PostMapping("/poll")
-    Poll newPoll(@RequestBody Poll newPoll) { return pollRepository.save(newPoll); }
+    public Poll newPoll(@RequestBody Poll newPoll) { return pollRepository.save(newPoll); }
 
     // GET - gets all polls from database
     @GetMapping("/polls")
-    List<Poll> getAllPolls() { return pollRepository.findAll(); }
+    public List<Poll> getAllPolls() { return pollRepository.findAll(); }
 
     // GET BY ID - gets poll by id
     @GetMapping("/poll/{id}")
-    Poll getPollById(@PathVariable Long id) {
+    public Poll getPollById(@PathVariable Long id) {
         return pollRepository.findById(id)
                 .orElseThrow(() -> new PollNotFoundException(id));
+    }
+
+    // EDIT - editing the poll
+    @PutMapping("/poll/{id}")
+    Poll updatePoll(@RequestBody Poll newPoll, @PathVariable Long id) {
+
+        //Map creates a new array from calling a function for every element
+        return pollRepository.findById(id)
+                .map(poll -> {
+                    poll.setQuestion(newPoll.getQuestion());
+                    poll.setCreator(newPoll.getCreator());
+                    poll.setVoteOptions(newPoll.getVoteOptions());
+
+                    //Save the existing user into the database
+                    return pollRepository.save(poll);
+
+                    //Or throw custom exception
+                }).orElseThrow(() -> new PollNotFoundException(id));
     }
 
     // DELETE - delete poll{ by id

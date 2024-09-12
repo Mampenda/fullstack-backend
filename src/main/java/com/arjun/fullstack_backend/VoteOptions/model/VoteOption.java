@@ -1,6 +1,7 @@
 package com.arjun.fullstack_backend.VoteOptions.model;
 
 import com.arjun.fullstack_backend.Polls.model.Poll;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -24,6 +25,12 @@ public class VoteOption {
     @JoinColumn(name = "poll_id")
     private Poll poll;
 
+    public VoteOption(String option, Poll poll) {
+        this.option = option;
+        this.poll = poll;
+    }
+    public VoteOption() {}
+
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -31,6 +38,7 @@ public class VoteOption {
     public String getOption() { return option; }
     public void setOption(String option) { this.option = option; }
 
+    @JsonBackReference
     public Poll getPoll() { return poll; }
     public void setPoll(Poll poll) { this.poll = poll; }
 }

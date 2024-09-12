@@ -36,3 +36,7 @@ this [video series](https://www.youtube.com/playlist?list=PL1oBBulPlvs84AmRmT-_3
 I used this [video series](https://www.youtube.com/watch?v=e4tPBJ56tm4&list=PL9l1zUfnZkZkGYaUAI5lyppp8oyIBKk8d&ab_channel=KindsonTheTechPro) 
 and this gitHub [repository](https://github.com/darecoder/Polling-App) to create the Poll-class and connect my user- and polls-class to the MySQL database.
 
+the JSONmanagerefrence is a forward path of the mapping and gets data serialized normally
+so we place it on the one to many side, so when you get a user, the user-class gets a list of polls and it ends there without infinite recursion
+
+JSONback refrence is a backward side of the mapping and does not get serialized
