@@ -12,7 +12,8 @@ public class VoteOption {
     @GeneratedValue
     private Long id;
 
-    private String option;
+    @Column(name = "vote_option")
+    private String voteOption;
 
     /*Many options to one poll
      * The VoteOption-entity 'owns' the Poll-VoteOption relationship, and it handles the mapping as it is the 'many' in @OneToMany.
@@ -23,10 +24,11 @@ public class VoteOption {
      * */
     @ManyToOne()
     @JoinColumn(name = "poll_id")
+    @JsonBackReference
     private Poll poll;
 
-    public VoteOption(String option, Poll poll) {
-        this.option = option;
+    public VoteOption(String voteOption, Poll poll) {
+        this.voteOption = voteOption;
         this.poll = poll;
     }
     public VoteOption() {}
@@ -35,10 +37,10 @@ public class VoteOption {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getOption() { return option; }
-    public void setOption(String option) { this.option = option; }
+    public String getVoteOption() { return voteOption; }
+    public void setVoteOption(String option) { this.voteOption = option; }
 
-    @JsonBackReference
+  //  @JsonBackReference
     public Poll getPoll() { return poll; }
     public void setPoll(Poll poll) { this.poll = poll; }
 }
