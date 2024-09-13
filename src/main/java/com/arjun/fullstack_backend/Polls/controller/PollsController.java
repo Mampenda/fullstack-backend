@@ -8,7 +8,8 @@ import com.arjun.fullstack_backend.User.exception.UserNotFoundException;
 import com.arjun.fullstack_backend.User.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,12 @@ public class PollsController {
     @Autowired
     private PollsRepository pollRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(PollsController.class);
     // POST - posts poll data and returns posted data
     @PostMapping("/poll")
-    public Poll newPoll(@RequestBody Poll newPoll) { return pollRepository.save(newPoll); }
+    public Poll newPoll(@RequestBody Poll newPoll) {
+        logger.info("Received new poll: {}", newPoll.getQuestion());
+        return pollRepository.save(newPoll); }
 
     // GET - gets all polls from database
     @GetMapping("/polls")
