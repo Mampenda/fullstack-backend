@@ -29,9 +29,11 @@ public class Poll {
     private User creator;
 
     // One poll to many options
-    @OneToMany(mappedBy = "poll")
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<VoteOption> voteOptions;
 
+    @Column(name = "question")
     private String question;
 
     public Poll(String question, User creator, List<VoteOption> voteOptions) {
@@ -47,14 +49,14 @@ public class Poll {
     public void setId(Long id) { this.id = id; }
 
     public String getQuestion() { return question; }
-    public void setQuestion(String name) { this.question = question; }
+    public void setQuestion(String question) { this.question = question; }
 
     //@JsonBackReference is on the backward side of the mapping and does not get serialized
     @JsonBackReference
     public User getCreator() { return creator; }
     public void setCreator(User creator) { this.creator = creator; }
 
-    @JsonManagedReference
+  //   @JsonManagedReference
     public List<VoteOption> getVoteOptions() { return voteOptions; }
     public void setVoteOptions(List<VoteOption> voteOptions) { this.voteOptions = voteOptions; }
 
