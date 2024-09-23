@@ -72,14 +72,208 @@ Now, that I got the server running and had connected to the shell, I opened _Mon
 Interface (GUI) which acts like a client for the MongoDB server. And to connect to the default MongoDB Server database, 
 I used the default URL: `mongodb://localhost:27017`.
 
-![img_3.png](img_3.png)
-
 Once I connected the server and client for MongoDB, I created a new database and started to explore the CURD (create, 
 update, read, delete) operations. 
 
+### Inserting Documents 
+I followed this [tutorial](https://www.mongodb.com/docs/manual/tutorial/insert-documents) for inserting documents. 
+
+First I used _MongoDB Compass_ to create a new database called "myDB", and in it, I created a collection called 
+"inventory". I navigated to the collection and click "ADD DATA". A window opened that prompted for a JSON file, so I 
+copied the example code from the tutorial and pasted it there.
+```
+[
+   { "prodId": 100, "price": 20, "quantity": 125 },
+   { "prodId": 101, "price": 10, "quantity": 234 },
+   { "prodId": 102, "price": 15, "quantity": 432 },
+   { "prodId": 103, "price": 17, "quantity": 320 }
+]
+```
+
+After pressing "Insert", I could see the documents in my database. I also opened the shell and looked at them there. 
+
+![img_6.png](img_6.png)
+
+### Inserting a Single Document
+In MongoDB Shell I used the command `db.inventory.insertOne({ "prodid": 104, "price": 18, "quantity": 260})`
+to insert a single document in the collection.
+
+I used the following code to insert many documents through the shell (instead of inside MongoDB Compass): 
+
+```
+db.inventory.insertMany([
+   { "prodId": 105, "price": 12, "quantity": 620 },
+   { "prodId": 106, "price": 23, "quantity": 340 },
+   { "prodId": 107, "price": 29, "quantity": 480 },
+   { "prodId": 108, "price": 37, "quantity": 500 }
+])
+```
+
+### Query Documents
+When querying documents in MongoDB Compass, I simply use the command `db.inventory.find()` to find all elements in the 
+collection. If I want to query for something specific, like by price or quantity, I can for example use the command, 
+
+`db.inventory.find( {"price": 37} )` to find all elements with price value equal to 37,
+
+`db.inventory.find({ $or [ {"price": 37}, {"price": 12} })` to find elements with the price value 37 or 12, or
+
+` db.inventory.find({ $or: [ {"quantity": {$gte: 300}}, {"price": 12}]})` to find elements with quantity 
+value greater than 300 or price value equal to 12.
+
+![img_11.png](img_11.png)
+
+### Update Documents 
+When _updating_ documents I can use the command `updateOne()` to update a field in an element. For instance, 
+I can update an element by product id with the command 
+
+`db.inventory.updateOne({"prodId": 100}, { $set: {"price": 200}, {"quantity": 500} })`
+
+Or if I want to update many elements based on a field value, I can use the command `updateMany()` to change the 
+price of all elements with quantity greater than 400 to have price set to 50 with the command 
+
+`db.inventory.updateMany({ "quantity": {$gte: 400} }, {$set: {"price": 50}})`
+
+If I want to _replace_ an element entirely, I can use `db.inventory.replaceOne()` and for example replace the element
+with _id 108_ with another element which also gets _id 108_, but different _price_ and _quantity_.
+
+`db.inventory.replaceOne({"prodId":108}, {"prodId":108, "price":700, "quantity":2})`:
+
+![img_5.png](img_5.png)
+
+If I want to _delete_ one or many elements, I can use 
+
+`db.inventory.deleteOne()` or `db.inventory.deleteMany()`: 
+
+![img_7.png](img_7.png)
+
+### Bulk Write Operations
+It is also possible to perform several operations in the shell at once. For instance, I can add two new products in my 
+inventory, update another, and delete and replace two others with the following code:
+
+```
+try {
+   db.inventory.bulkWrite( [
+      { insertOne: { document: { "prodId": 105, "price": 10, "quantity": 300 } } },
+      { insertOne: { document: { "prodId": 106, "price": 20, "quantity": 300 } } },
+      { updateOne: {
+         filter: { "price": 50 },
+         update: { $set: { "price": 75 } }
+      } },
+      { deleteOne: { filter: { "prodId": 104} } },
+      { replaceOne: {
+         filter: { "prodId": 103 },
+         replacement: { "prodId": 107, "price": 30, "quantity": 300 }
+      } }
+   ] )
+} catch( error ) {
+   print( error )
+}
+```
+![img_9.png](img_9.png)
+
+# Aggregation
+I created a new database "pizzamenu" and added several pizzas using the commands 
+```
+> show collections
+> db.createCollection("pizzamenu")
+> use pizzamenu
+> db.pizzamenu.insertMany([
+    { "id": 1, "name": "Margarita", "toppings": ["tomato sauce", "cheese"], "price": 110 },
+    { "id": 2, "name": "Bolognese" , "toppings": ["tomato sauce", "cheese", "meat sauce"] , "price": 150 },
+    { "id": 3, "name": "Hawaii" , "toppings": ["tomato sauce", "cheese", "ham", "pineapple"], "price": 150 },
+    { "id": 4, "name": "ChickenBBQ" , "toppings": ["tomato sauce", "cheese", "mushrooms", "barbeque chicken", "onion"], 
+      "price": 180 },
+    { "id": 5, "name": "Vegetariana", "toppings": ["tomato sauce", "cheese", "mushrooms", "bell peppers", "onion", 
+      "corn", "olives"] , "price": 90 },
+])
+
+// Update all prices by multiplying by 1.1
+> db.pizzamenu.updateMany( {}, [{
+    $set: {
+        price: { $multiply: ["$price", 1.1] }
+    }
+  }])
+  
+// Update all prices by multiplying by 0.9
+> db.pizzamenu.updateMany( {}, [{ 
+    $set: {
+        price: { $multiply: ["$price", 0.9] } 
+        } 
+    }])
+```
+After that I tried to select all pizzas with 5 or more toppings, and give them size = large, while the others got 
+size = small. I managed to filer out the pizzas with five or more toppings with this code: 
+
+```
+db.pizzamenu.aggregate([
+    {
+        $addFields: {
+            "size": {$size: "$toppings"}
+            },
+        },
+	{
+	    $match: {
+	        size: {$gte: 5} 
+	    }, 
+	},])
+```
+But I only got the output: 
+```
+[
+  {
+    _id: ObjectId('66f1dabc2774de7b61c73c02'),
+    id: 4,
+    name: 'ChickenBBQ',
+    toppings: [
+      'tomato sauce',
+      'cheese',
+      'mushrooms',
+      'barbeque chicken',
+      'onion'
+    ],
+    price: 178.20000000000002,
+    size: 5
+  },
+  {
+    _id: ObjectId('66f1dabc2774de7b61c73c03'),
+    id: 5,
+    name: 'Vegetariana',
+    toppings: [
+      'tomato sauce',
+      'cheese',
+      'mushrooms',
+      'bell peppers',
+      'onion',
+      'corn',
+      'olives'
+    ],
+    price: 89.10000000000001,
+    size: 7
+  }
+]
+```
+So I managed to select them, but I didn't set the size to a string. I tried again with 
+```
+db.pizzamenu.updateMany( {}, [{
+    $set: {
+        size: {
+            $cond: {
+                if: { $gte: ["$size", "toppings"] },
+                then: "Large",
+                else: "Small"
+                }
+            }
+        }
+    }
+])
+```
+
+And it did put a string in the field "size", but all the pizzas were put to be "Small". 
+
+## Map-Reduce
 
 
-
+![img_3.png](img_3.png)
 
 ---
 In particular, you should write about:
