@@ -28,13 +28,13 @@ public class Poll {
     @JoinColumn(name = "creator_id")
     private User creator;
 
+    @Column(name = "question")
+    private String question;
+
     // One poll to many options
     @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<VoteOption> voteOptions;
-
-    @Column(name = "question")
-    private String question;
 
     public Poll(String question, User creator, List<VoteOption> voteOptions) {
         this.question = question;
@@ -56,22 +56,8 @@ public class Poll {
     public User getCreator() { return creator; }
     public void setCreator(User creator) { this.creator = creator; }
 
-  //   @JsonManagedReference
+    @JsonManagedReference
     public List<VoteOption> getVoteOptions() { return voteOptions; }
     public void setVoteOptions(List<VoteOption> voteOptions) { this.voteOptions = voteOptions; }
-
-//    private static class customPair<I extend Number, VoteOption> {
-//        private int index;
-//        private VoteOption option;
-//        public customPair(Integer index, VoteOption option) {
-//            this.index = index;
-//            this.option = option;
-//        }
-//
-//        public int getIndex() { return index; }
-//        public void setIndex(int index) { this.index = index; }
-//        public VoteOption getOption() { return option; }
-//        public void setOption(VoteOption option) { this.option = option; }
-//    }
 }
 

@@ -36,7 +36,11 @@ this [video series](https://www.youtube.com/playlist?list=PL1oBBulPlvs84AmRmT-_3
 I used this [video series](https://www.youtube.com/watch?v=e4tPBJ56tm4&list=PL9l1zUfnZkZkGYaUAI5lyppp8oyIBKk8d&ab_channel=KindsonTheTechPro) 
 and this gitHub [repository](https://github.com/darecoder/Polling-App) to create the Poll-class and connect my user- and polls-class to the MySQL database.
 
-the JSONmanagerefrence is a forward path of the mapping and gets data serialized normally
-so we place it on the one to many side, so when you get a user, the user-class gets a list of polls and it ends there without infinite recursion
+There is definitely some bugs in my implementation of the Poll- and VoteOption-classes, but I am working on them. As of now, I can POST, GET, GET by id, and DELETE polls, but I am still figuring out how to implement PUT so that I can update the polls. 
 
-JSONback refrence is a backward side of the mapping and does not get serialized
+### Single-Page Application
+
+I used the video series [REACT JS TUTORIAL](https://www.youtube.com/watch?v=1w-oQ-i1XB8&ab_channel=LearnCode.academy) (click on 'From the series' on the top right-hand side to view all videoes in the series),
+more specifically [this video](https://www.youtube.com/watch?v=1iAG6h9ff5s&ab_channel=LearnCode.academy) to implement single-page rendering in the front-end part for my project.
+
+#### HERE

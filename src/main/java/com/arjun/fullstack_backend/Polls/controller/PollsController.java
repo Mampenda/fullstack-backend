@@ -49,14 +49,14 @@ public class PollsController {
                     poll.setCreator(newPoll.getCreator());
                     poll.setVoteOptions(newPoll.getVoteOptions());
 
-                    //Save the existing user into the database
+                    //Save the poll into the database
                     return pollRepository.save(poll);
 
                     //Or throw custom exception
                 }).orElseThrow(() -> new PollNotFoundException(id));
     }
 
-    // DELETE - delete poll{ by id
+    // DELETE - delete poll by id
     @DeleteMapping("/poll/{id}")
     String deletePoll(@PathVariable Long id) {
 

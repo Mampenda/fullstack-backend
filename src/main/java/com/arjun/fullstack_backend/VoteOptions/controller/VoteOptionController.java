@@ -31,6 +31,23 @@ public class VoteOptionController {
                 .orElseThrow(() -> new VoteOptionNotFoundException(id));
     }
 
+    // EDIT - editing the vote option
+    @PutMapping("/poll/{id}")
+    VoteOption updateVoteOption(@RequestBody VoteOption newVoteOption, @PathVariable Long id) {
+
+        // Map creates a new array from calling a function for every element
+        return voteOptionRepository.findById(id)
+                .map(voteOption -> {
+                    voteOption.setVoteOption(newVoteOption.getVoteOption());
+                    voteOption.setPoll(newVoteOption.getPoll());
+
+                    //Save the vote option
+                    return voteOptionRepository.save(voteOption);
+
+                    // Or throw custom exception
+                }).orElseThrow(() -> new VoteOptionNotFoundException(id));
+    }
+
     // DELETE - delete vote option by id
     @DeleteMapping("/voteoption/{id}")
     String deleteVoteOptionById(@PathVariable Long id) {
