@@ -305,7 +305,7 @@ An aggregation pipeline looks something like this:
 pipeline = [
         { $match : { … } },
         { $project : { … } },
-        { $group : { … } },
+        { $unwind { $group : { … } }},
         { $sort : { … } }
        ]
 ```
@@ -330,17 +330,63 @@ fields you just need to state the inclusion.
 In the following example, we only want the 'name' and 'toppings' of a pizza-element:
 
 ```` 
-db.pizzamenu.aggregate([ {$project: { _id: 0, "name":1, "toppings":1}}])
+db.pizzamenu.aggregate([ {$project: {_id: 0, "name":1, "toppings":1}} ])
 ````
+
+The `$unwind` stage in MongoDB is commonly found in a pipeline because it is a means to an end. You cannot work directly
+on the elements of an array within a document with stages such as `$group`. The `$unwind` stage enables us to work with 
+the values of the fields within an array.
+
 With the `$group` stage, we can perform all the aggregation or summary queries that we need, such as finding counts, 
 totals, averages or maximums. 
 
-In the following example, we want to know the numbers of pizza-elements there are in the collection: 
+In the following example, we want to know the numbers times the different toppings occur: 
 
+```
+db.pizzamenu.aggregate([{$unwind: "$toppings"}, {$group : {"_id" : "$toppings", countToppings : {$sum : 1} } }])
+```
+Which gives the output
+``` 
+[
+  { _id: 'cheese', countToppings: 5 },
+  { _id: 'ham', countToppings: 1 },
+  { _id: 'barbeque chicken', countToppings: 1 },
+  { _id: 'meat sauce', countToppings: 1 },
+  { _id: 'tomato sauce', countToppings: 5 },
+  { _id: 'olives', countToppings: 1 },
+  { _id: 'onion', countToppings: 2 },
+  { _id: 'corn', countToppings: 1 },
+  { _id: 'mushrooms', countToppings: 2 },
+  { _id: 'bell peppers', countToppings: 1 },
+  { _id: 'pineapple', countToppings: 1 }
+]
+```
+You need the `$sort` stage to sort your results by the value of a specific field. For example, let’s sort the documents 
+obtained as a result of the `$unwind` stage by the number of times toppings occurred in descending order.
 
-
-
-
+```
+db.pizzamenu.aggregate([
+    {$unwind : "$toppings"}, 
+    {$group : {"_id" : "$toppings", countToppings : {$sum : 1}}}, 
+    {$sort : {"countToppings" : -1}}
+])
+```
+Which gives the output 
+``` 
+[
+  { _id: 'tomato sauce', countToppings: 5 },
+  { _id: 'cheese', countToppings: 5 },
+  { _id: 'onion', countToppings: 2 },
+  { _id: 'mushrooms', countToppings: 2 },
+  { _id: 'barbeque chicken', countToppings: 1 },
+  { _id: 'meat sauce', countToppings: 1 },
+  { _id: 'ham', countToppings: 1 },
+  { _id: 'olives', countToppings: 1 },
+  { _id: 'corn', countToppings: 1 },
+  { _id: 'pineapple', countToppings: 1 },
+  { _id: 'bell peppers', countToppings: 1 }
+]
+```
 
 
 ---
