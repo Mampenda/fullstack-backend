@@ -271,9 +271,35 @@ db.pizzamenu.updateMany( {}, [{
 And it did put a string in the field "size", but all the pizzas were put to be "Small". 
 
 ## Map-Reduce
-
+I used the following code
 
 ![img_3.png](img_3.png)
+
+and managed to create a new collection `map_reduce_prices` (the colon in my code was a typo, so I fixed that after)
+```
+pizzamenu> db.map_reduce_prices.find()
+[
+  { _id: 2, value: 148.5 },
+  { _id: 3, value: 148.5 },
+  { _id: 5, value: 89.10000000000001 },
+  { _id: 1, value: 108.90000000000002 },
+  { _id: 4, value: 178.20000000000002 }
+]
+pizzamenu>
+```
+
+But this was not what I was trying to do, because it consisted of all the same elements that are in the collection
+pizzamenu, only with fewer fields. So, I tried again, but this time, I tried to implement an aggregation pipeline.
+
+## Aggregation
+
+To get a better understanding of aggregation, I followed this [tutorial](https://studio3t.com/knowledge-base/articles/mongodb-aggregation-framework/)
+which is a beginner's guide to MongoDB Aggregation.
+
+Aggregation is a way of processing a large number of documents in a collection by means of passing them through 
+different stages. The stages make up what is known as a pipeline. The stages in a pipeline can filter, sort, group, 
+reshape and modify documents that pass through the pipeline.
+
 
 ---
 In particular, you should write about:
