@@ -288,7 +288,8 @@ pizzamenu>
 ```
 
 But this was not what I was trying to do, because it consisted of all the same elements that are in the collection
-pizzamenu, only with fewer fields. So, I tried again, but this time, I tried to implement an aggregation pipeline.
+pizzamenu, only with fewer fields. This might be because map-reduce has been (mostly) replaced by the aggregate 
+pipeline. So, I tried again, but this time, I tried to implement an aggregation pipeline.
 
 ## Aggregation
 
