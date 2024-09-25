@@ -28,7 +28,7 @@ But for some reason, it couldn't find the file I'd saved. You can see in the pri
 
 ![img_2.png](img_2.png)
 
-The name of and the path to the file is correct, the SHA is for the correct version of MongoDB, and the two SHA's are 
+The name of and the path to the file is correct, the SHA is for the correct version of MongoDB, and the two SHAs are 
 identical once you set everything to upper case. 
 
 I decided not to waste too much time on figuring out what went wrong and decided to continue downloading.
@@ -140,9 +140,8 @@ with _id 108_ with another element which also gets _id 108_, but different _pric
 
 ![img_5.png](img_5.png)
 
-If I want to _delete_ one or many elements, I can use 
-
-`db.inventory.deleteOne()` or `db.inventory.deleteMany()`: 
+- If I want to _delete_ one or many elements, I can use `db.inventory.deleteOne()` or `db.inventory.deleteMany()`. 
+- If I want to _delete_ a whole collection, I can use `db.inventory.drop({})`.
 
 ![img_7.png](img_7.png)
 
@@ -179,8 +178,8 @@ I created a new database "pizzamenu" and added several pizzas using the commands
 > use pizzamenu
 > db.pizzamenu.insertMany([
     { "id": 1, "name": "Margarita", "toppings": ["tomato sauce", "cheese"], "price": 110 },
-    { "id": 2, "name": "Bolognese" , "toppings": ["tomato sauce", "cheese", "meat sauce"] , "price": 150 },
-    { "id": 3, "name": "Hawaii" , "toppings": ["tomato sauce", "cheese", "ham", "pineapple"], "price": 150 },
+    { "id": 2, "name": "Bolognese", "toppings": ["tomato sauce", "cheese", "meat sauce"] , "price": 150 },
+    { "id": 3, "name": "Hawaii", "toppings": ["tomato sauce", "cheese", "ham", "pineapple"], "price": 150 },
     { "id": 4, "name": "ChickenBBQ" , "toppings": ["tomato sauce", "cheese", "mushrooms", "barbeque chicken", "onion"], 
       "price": 180 },
     { "id": 5, "name": "Vegetariana", "toppings": ["tomato sauce", "cheese", "mushrooms", "bell peppers", "onion", 
@@ -299,6 +298,49 @@ which is a beginner's guide to MongoDB Aggregation.
 Aggregation is a way of processing a large number of documents in a collection by means of passing them through 
 different stages. The stages make up what is known as a pipeline. The stages in a pipeline can filter, sort, group, 
 reshape and modify documents that pass through the pipeline.
+
+An aggregation pipeline looks something like this: 
+
+```
+pipeline = [
+        { $match : { … } },
+        { $project : { … } },
+        { $group : { … } },
+        { $sort : { … } }
+       ]
+```
+
+The `$match` stage allows us to choose just those documents from a collection that we want to work with. It does this by 
+filtering out those that do not follow our requirements.
+
+In the following example, we only want to work with those documents which specify that 'mushroom' is the value of the 
+field 'toppings'.
+
+```
+db.pizzamenu.aggregate([ {$match: {"toppings": "mushrooms"} } ])
+```
+
+The `$project` stage is used to only the fields you need/want to work with to avoid processing more data than is 
+necessary and to add any calculated fields that you need.
+
+According to the documentation, first argument in find is filter and second is projection. projection allows you to
+specify fields to return. _id is the only field which you need to _explicitly exclude_ in the projection. For all other
+fields you just need to state the inclusion.
+
+In the following example, we only want the 'name' and 'toppings' of a pizza-element:
+
+```` 
+db.pizzamenu.aggregate([ {$project: { _id: 0, "name":1, "toppings":1}}])
+````
+With the `$group` stage, we can perform all the aggregation or summary queries that we need, such as finding counts, 
+totals, averages or maximums. 
+
+In the following example, we want to know the numbers of pizza-elements there are in the collection: 
+
+
+
+
+
 
 
 ---
