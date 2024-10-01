@@ -1,7 +1,8 @@
 # RabbitQM
-I am following this [video tutorial](https://www.youtube.com/watch?v=TvxhuAUJGUg&list=PLGRDMO4rOGcMh2fAMOnwuBMDa8PxiKWoN&ab_channel=JavaGuides).
-
-We will go thorough: 
+I am following this [video tutorial](https://www.youtube.com/watch?v=TvxhuAUJGUg&list=PLGRDMO4rOGcMh2fAMOnwuBMDa8PxiKWoN&ab_channel=JavaGuides)
+by Java Guides on [YouTube](https://www.youtube.com/).
+---
+The toturial will go thorough: 
 1. **Core concepts of RabbitMQ**, such as 
    - Producer
    - Consumer
@@ -48,9 +49,27 @@ messages from the RabbitMQ broker.
 > 
 > RabbitMQ is one of the simplest freely available options for implementing messaging queues in microservice architecture. 
 
+### Core Concepts 
+`Producer` - The producer is an application that sends messages. It does not send messages directly to the consumer, 
+but only to the RabbitMQ broker.
 
+`Consumer` - The consumer is an application that reads messages from the RabbitMQ Broker
 
+`Queue` -   The queue is a buffer/storage in a RabbitMQ broker that stores messages. The messages are put into a queue by 
+            a producer and read from it by a consumer. Once a message is read, it is consumed and removed from the queue. A message 
+            can thus only be processes once.
 
+`Message` - Information that is sent from the producer to a consumer through RabbitMQ.
+
+`Exchange` - Acts as an intermediary between the producer and a queue. Instead of sending messages directly to a queue, 
+             a producer can send them to an exchange instead. The exchanges then sends the messages to one or more 
+             queues following a specified set of rules. The producer do not need to know the queues that eventually 
+             receive those messages. 
+
+`Routing Key` - The routing key is a key that the exchanges look at to decide how to route the message to queues, like 
+                an address for the messages.
+
+`Binding` - A binding is a link between a queue and an exchange.
 
 
 ## Experiment 1: Installation
