@@ -71,5 +71,13 @@ but only to the RabbitMQ broker.
 
 `Binding` - A binding is a link between a queue and an exchange.
 
+### Architecture
+A typical RabbitMQ messaging system architecture consists of a producer that sends a message into the queue via the 
+message broker, who in turn sends it to the consumer. In a `simple` RabbitMQ architecture, there's one more component, 
+the exchange component, between the producer and the queue. In a more `complex` RabbitMQ architecture, there are 
+multiple queues and multiple consumers, and the exchange acts as the router between the producer and the queues, using 
+a routing key. So the binding/link between the exchange and the specified queue, is thus dependent on the routing key.
+
+
 
 ## Experiment 1: Installation
