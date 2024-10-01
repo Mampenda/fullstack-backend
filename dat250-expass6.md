@@ -133,3 +133,37 @@ the RabbitMQ client connections (broker). This gave me a long output which ended
 
 I checked that the server was running by opening the browser and going to `localhost:15672` which opened the RabbitMQ
 management website which prompted for a username and password.
+
+### Exploring RabbitMQ Using RabbitMQ Management UI
+I logged in using the `guest` as username and password. The "Connections" tab in the UI displays all the TCP connections,
+so whenever an application is connected to the RabbitMQ server it will show up there. The "Channels" tab displays the
+TCP connections that are established between a producer and a consumer using RabbitMQ.
+
+I created a new exchange by clicking on the "Exchanges" tab and scrolling down to the button which said "Add exchange"
+and clicking on it. I named the new exchange `exchange_demo` and kept the rest of the default settings before clicking 
+"Add exchange". The newly added exchanged showed up in the table of exchanges and I clicked it to open it. 
+
+Now I needed to create a queue as well to provide the exchange with a routing key. I clicked the "Queues and Streams"
+tab and added a new queue where I named it `queue_demo` and kept all the default values, except for the `Type`, which I 
+changed to `classic` because that's what the tutorial is using (probably because RabbitMQ has gotten updates after it 
+was made).
+
+Now, all that remained was to bind them together using the `routing key`. I went back to `exchange_demo`, scrolled down 
+to `Bindings`, filled in the name for my queue in the `To queue` field, and added the routing key for `queue_demo` by
+writing `routing_key_demo` in the `Routing key` field. As soon as I clicked on "Bind", the new binding appeared in a 
+table in the exchange. When I went back to "Queues and Streams", I could see the binding there as well. 
+
+I tested the binding by sending a message from the exchange and into the queue. This was simply done by going to 
+"Exchanges" and scrolling to "Publish message". Here I clicked on the arrow which revealed a drop-down menu where I
+could enter the fields of the message. I entered the routing key `routing_key_demo` and wrote `Hello World!` in the 
+payload field, before clicking on "Publish message". 
+
+As soon as I clicked on "Publish message" a pop-up window appeared to inform me that the message had been published. To 
+verify that the message had been successfully routed to the queue, I went back to the "Queues and Streams" tab, 
+clicked on my queue and opened the drop-down menu "Get Message(s)". And when I opened it, I could see that my message 
+had been sent and received successfully.
+
+![img_4.png](img_4.png)
+
+## Experiment 2: RabbitMQ tutorial - "Hello World!"
+//TODO: Do this using the code [tutorial](https://www.rabbitmq.com/tutorials/tutorial-one-java) as well! 
