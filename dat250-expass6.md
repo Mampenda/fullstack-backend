@@ -78,6 +78,58 @@ the exchange component, between the producer and the queue. In a more `complex` 
 multiple queues and multiple consumers, and the exchange acts as the router between the producer and the queues, using 
 a routing key. So the binding/link between the exchange and the specified queue, is thus dependent on the routing key.
 
+## Experiment 1: Installing and Setting Up RabbitMQ using Docker
+I already had [Docker Desktop](https://www.docker.com/products/docker-desktop/) downloaded and installed on my machine, 
+so I started with opening it. After that, I opened a browser and typed "docker hub" in the search bar and clicked on the
+link for the [Docker Hub Container Image Library](https://hub.docker.com/). Then I searched for RabbitMQ in the search 
+bar and clicked on the top-most result, which was the official image library for RabbitMQ. This took me to the page for 
+the RabbitMQ Docker Image, where I scrolled down to "Supported Tags and Respective `Dockerfile` links" and scrolled down 
+to the second link from the top `4.0.2-management, 4.0-management, 4-management, management`. I copied the first image
+name `4.0.2-management` and then I opened the command prompt as admin and ran the command 
 
+`docker pull rabbitmq:4.0.2-management`
 
-## Experiment 1: Installation
+and the image started downloading 
+
+ ```
+ Microsoft Windows [Version 10.0.22631.4169]
+(c) Microsoft Corporation. Med enerett.
+
+C:\Windows\System32>docker --version
+Docker version 27.1.1, build 6312585
+
+C:\Windows\System32>docker pull rabbitmq:4.0.2-management
+4.0.2-management: Pulling from library/rabbitmq
+dafa2b0c44d2: Pull complete
+0ae94e6aef35: Extracting  37.16MB/45.45MB
+2ad525572aae: Download complete
+c01adf267ddc: Download complete
+14495391f6cb: Download complete
+8666b435d033: Download complete
+37a05209e70f: Download complete
+dc90a98e5e04: Download complete
+45842602427a: Download complete
+953a6cb82879: Download complete
+ ```
+
+After dowloading, I opened Docker and checked that the image was there, which it was. I could have simply used the 
+Docker Desktop to run the RabbitMQ image in a new container, but I chose to run it through the terminal using the
+command 
+
+`docker run --rm -it -p 15672:15672 -p 5672:5672 rabbitmq:4.0.2-management`
+
+This command is mapping and exporting the port 15672 (default) for the RabbitMQ management website (plugin), and the second for 
+the RabbitMQ client connections (broker). This gave me a long output which ended with the lines 
+
+```
+2024-10-01 16:06:40.167168+00:00 [info] <0.635.0> Server startup complete; 4 plugins started.
+2024-10-01 16:06:40.167168+00:00 [info] <0.635.0>  * rabbitmq_prometheus
+2024-10-01 16:06:40.167168+00:00 [info] <0.635.0>  * rabbitmq_management
+2024-10-01 16:06:40.167168+00:00 [info] <0.635.0>  * rabbitmq_management_agent
+2024-10-01 16:06:40.167168+00:00 [info] <0.635.0>  * rabbitmq_web_dispatch
+ completed with 4 plugins.
+2024-10-01 16:06:40.343648+00:00 [info] <0.9.0> Time to start RabbitMQ: 13600 ms
+```
+
+I checked that the server was running by opening the browser and going to `localhost:15672` which opened the RabbitMQ
+management website which prompted for a username and password.
