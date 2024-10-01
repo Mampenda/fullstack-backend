@@ -165,5 +165,22 @@ had been sent and received successfully.
 
 ![img_4.png](img_4.png)
 
+---
+
 ## Experiment 2: RabbitMQ tutorial - "Hello World!"
-//TODO: Do this using the code [tutorial](https://www.rabbitmq.com/tutorials/tutorial-one-java) as well! 
+!! TODO: Do this using the code [tutorial](https://www.rabbitmq.com/tutorials/tutorial-one-java) as well !! 
+
+---
+
+## Create and Set Up Spring Boot Project
+I went to the official [Spring Initializer](https://start.spring.io/) and created a new Gradle-Kotlin Java project with 
+Spring Boot 3.4.0(SNAPSHOT) using Java 17. Then, I added the dependencies `Spring for RabbitMQ`, `Spring Web`, and 
+`Lombok`, before clicking on "Generate". 
+
+After unzipping the project inside a folder of my choice, I opened the folder in IntelliJ and ran the commands 
+```
+$ gradle wrapper
+$ ./gradlew build 
+$ ./gradlew bootRun
+```
+And saw that the server was successfully built and running. 
