@@ -42,5 +42,3 @@ There is definitely some bugs in my implementation of the Poll- and VoteOption-c
 
 I used the video series [REACT JS TUTORIAL](https://www.youtube.com/watch?v=1w-oQ-i1XB8&ab_channel=LearnCode.academy) (click on 'From the series' on the top right-hand side to view all videoes in the series),
 more specifically [this video](https://www.youtube.com/watch?v=1iAG6h9ff5s&ab_channel=LearnCode.academy) to implement single-page rendering in the front-end part for my project.
-
-#### HERE

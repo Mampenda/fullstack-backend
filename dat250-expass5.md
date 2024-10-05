@@ -26,7 +26,7 @@ $sigHash -eq $fileHash
 
 But for some reason, it couldn't find the file I'd saved. You can see in the print screen below that I had it correctly.
 
-![img_2.png](img_2.png)
+![img_2.png](images/img_2.png)
 
 The name of and the path to the file is correct, the SHA is for the correct version of MongoDB, and the two SHAs are 
 identical once you set everything to upper case. 
@@ -49,7 +49,7 @@ correctly.
 After creating the new directory `\data\db` inside `C:\`, I ran 
 `"C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe" --dbpath="c:\data\db"` and got this output: 
 
-![img.png](img.png)
+![img.png](images/img.png)
 
 This confused me since I did not get the output: `[initandlisten] waiting for connections` which it said should be 
 displayed in the command interpreter if the MangoDB database was running correctly.
@@ -66,7 +66,7 @@ running.
 I also figured out, thanks to this [question](https://stackoverflow.com/questions/73081708/mongo-exe-not-installed-in-version-6-0-0/73208435#73208435) 
 from StackOverflow, that the correct command for starting the shell is `mongosh` and not `mongo`.
 
-![img_1.png](img_1.png)
+![img_1.png](images/img_1.png)
 
 Now, that I got the server running and had connected to the shell, I opened _MongoDB Compass_, a Graphical User
 Interface (GUI) which acts like a client for the MongoDB server. And to connect to the default MongoDB Server database, 
@@ -92,7 +92,7 @@ copied the example code from the tutorial and pasted it there.
 
 After pressing "Insert", I could see the documents in my database. I also opened the shell and looked at them there. 
 
-![img_6.png](img_6.png)
+![img_6.png](images/img_6.png)
 
 ### Inserting a Single Document
 In MongoDB Shell I used the command `db.inventory.insertOne({ "prodid": 104, "price": 18, "quantity": 260})`
@@ -120,7 +120,7 @@ collection. If I want to query for something specific, like by price or quantity
 ` db.inventory.find({ $or: [ {"quantity": {$gte: 300}}, {"price": 12}]})` to find elements with quantity 
 value greater than 300 or price value equal to 12.
 
-![img_11.png](img_11.png)
+![img_11.png](images/img_11.png)
 
 ### Update Documents 
 When _updating_ documents I can use the command `updateOne()` to update a field in an element. For instance, 
@@ -138,12 +138,12 @@ with _id 108_ with another element which also gets _id 108_, but different _pric
 
 `db.inventory.replaceOne({"prodId":108}, {"prodId":108, "price":700, "quantity":2})`:
 
-![img_5.png](img_5.png)
+![img_5.png](images/img_5.png)
 
 - If I want to _delete_ one or many elements, I can use `db.inventory.deleteOne()` or `db.inventory.deleteMany()`. 
 - If I want to _delete_ a whole collection, I can use `db.inventory.drop({})`.
 
-![img_7.png](img_7.png)
+![img_7.png](images/img_7.png)
 
 ### Bulk Write Operations
 It is also possible to perform several operations in the shell at once. For instance, I can add two new products in my 
@@ -168,7 +168,7 @@ try {
    print( error )
 }
 ```
-![img_9.png](img_9.png)
+![img_9.png](images/img_9.png)
 
 
 
@@ -278,7 +278,7 @@ And it did put a string in the field "size", but all the pizzas were put to be "
 ## Map-Reduce
 I used the following code
 
-![img_3.png](img_3.png)
+![img_3.png](images/img_3.png)
 
 and managed to create a new collection `map_reduce_prices` (the colon in my code was a typo, so I fixed that after)
 ```
